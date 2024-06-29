@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Links by Hassan Mango",
-  description: "Developed by create next app",
+  description: "Developed by Hassan Mango with Vercel & create next app",
 };
 
 export default function RootLayout({
