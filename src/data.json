@@ -1,0 +1,41 @@
+{
+  "name": "Hassan Mango",
+  "avatar": "https://scontent-ord5-1.cdninstagram.com/v/t51.2885-19/328721619_739919497498343_1201344700462854423_n.jpg?stp=dst-jpg_e0_s150x150&_nc_ht=scontent-ord5-1.cdninstagram.com&_nc_cat=111&_nc_ohc=PHGTjtrC6bgQ7kNvgFC6Lbi&edm=AJYBtmQBAAAA&ccb=7-5&oh=00_AYCQhHlyVHeM5s0D91179wa1GxNn9UmNAd1_Dwa-Ls7v9A&oe=66853309&_nc_sid=691684",
+  "links": [
+    {
+      "title": "My Portfolio",
+      "href": "https://yanga-portfolio.vercel.app/"
+    },
+    {
+      "title": "Check out my posts on LinkedIn",
+      "href": "https://www.linkedin.com/in/hassan-mango/"
+    },
+    {
+      "title": "Handshake",
+      "href": "https://knox.joinhandshake.com/profiles/20559889"
+    },
+    {
+      "title": "Soundcloud - Club Disco 🕺🏻",
+      "href": "https://soundcloud.com/yangzog/sets/club-disco?si=f74395b57d814d51a9ae618999527c90&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+    },
+    {
+      "title": "Buy me a 🌮",
+      "href": "buymeacoffee.com/hassanmango"
+    }
+  ],
+  "socials": [
+    {
+      "title": "X",
+      "href": "https://x.com/illyangz"
+    },
+    {
+      "title": "Apple",
+      "href": "https://music.apple.com/profile/yanga8"
+    },
+    {
+      "title": "Github",
+      "href": "https://github.com/illyangz"
+    },
+    { "title": "Souncloud", "href": "https://soundcloud.com/yangzog/" }
+  ]
+}
