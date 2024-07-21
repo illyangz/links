@@ -1,6 +1,6 @@
 {
   "name": "Hassan Mango",
-  "avatar": "https://pbs.twimg.com/profile_images/1792312255909933056/SmSXuRhT_400x400.jpg",
+  "avatar": "/twitteravatar.jpg",
   "links": [
     {
       "title": "My Portfolio",
@@ -29,13 +29,16 @@
       "href": "https://x.com/illyangz"
     },
     {
-      "title": "Apple",
+      "title": "Apple Music",
       "href": "https://music.apple.com/profile/yanga8"
     },
     {
       "title": "Github",
       "href": "https://github.com/illyangz"
     },
-    { "title": "Souncloud", "href": "https://soundcloud.com/yangzog/" }
+    {
+      "title": "Soundcloud",
+      "href": "https://soundcloud.com/yangzog/"
+    }
   ]
 }
