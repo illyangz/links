@@ -124,8 +124,8 @@ function LinkCard({
               className="rounded-sm"
               alt={title}
               src={image}
-              width={50}
-              height={50}
+              width={40}
+              height={40}
             />
           )}
         </div>
