@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Links by Hassan Mango",
+  title: "Hassan Mango | Links",
   description: "Developed by Hassan Mango with Vercel & create next app",
 };
 
