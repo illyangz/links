@@ -129,7 +129,7 @@ function LinkCard({
             />
           )}
         </div>
-        <h2 className="flex justify-center items-center font-semibold w-full text-gray-700 -ml-10">
+        <h2 className="flex justify-center font-mono items-center font-semibold w-full text-gray-700 -ml-10">
           {title}
         </h2>
       </div>
@@ -148,7 +148,7 @@ export default function Home() {
         width={96}
         height={96}
       />
-      <h1 className="font-bold mt-4 mb-8 text-2xl text-white">{data.name}</h1>
+      <h1 className="font-bold font-mono mt-4 mb-8 text-2xl text-white">{data.name}</h1>
       {data.links.map((link) => (
         <LinkCard key={link.href} {...link} />
       ))}
