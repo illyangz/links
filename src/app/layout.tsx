@@ -11,8 +11,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hassan Mango | Links",
-  description: "Developed by Hassan Mango with Vercel & create next app",
+  title: "Hassan Mango - Links",
+  description: "LinkinBio Clone developed by Hassan Mango",
+  icons: {
+    icon: [
+      {
+        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥭</text></svg>",
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
