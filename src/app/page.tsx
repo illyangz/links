@@ -1,8 +1,83 @@
+"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import data from "../data.json";
+import { GrainGradient, Warp } from "@paper-design/shaders-react";
+import { useTranslation } from "react-i18next";
+import "../i18n";
 
-export const dynamic = "force-dynamic",
-  runtime = "edge";
+type ShaderType = "grain" | "warp";
+
+export const dynamic = "force-dynamic";
+
+// Gradient presets with translation keys
+const gradientPresets = [
+  {
+    type: "warp" as ShaderType,
+    name: "MangoWarp",
+    nameKey: "mangoWarp",
+    colors: ["#153d18", "#e8b126", "#ff8400", "#ff3838"],
+    proportion: 0.5,
+    softness: 1,
+    distortion: 0.09,
+    swirl: 0.9,
+    swirlIterations: 6,
+    shape: "checks" as const,
+    shapeScale: 0.25,
+    speed: 3,
+    scale: 2.5,
+    rotation: 1.35,
+  },
+  {
+    type: "grain" as ShaderType,
+    name: "JellyFish",
+    nameKey: "jellyFish",
+    colors: ["33cc33", "#0080ff", "#f2ebca", "#33cc33"],
+    colorBack: "#0a0000",
+    softness: 0.5,
+    intensity: 0.3,
+    noise: 0.8,
+    scale: 0.5,
+    shape: "dots" as const,
+    speed: 0.3,
+  },
+  {
+    type: "grain" as ShaderType,
+    name: "Forest",
+    nameKey: "forest",
+    colors: ["#702200", "#eaba7b", "#38b422"],
+    colorBack: "#0a0000",
+    softness: 0.6,
+    intensity: 0.2,
+    noise: 0.1,
+    shape: "truchet" as const,
+    speed: 1,
+  },
+  {
+    type: "grain" as ShaderType,
+    name: "LavaLamp",
+    nameKey: "lavaLamp",
+    colors: ["#0d3b0d", "#2ECC40", "#7300ff"],
+    colorBack: "#051205",
+    softness: 0.3,
+    intensity: 0.25,
+    noise: 0.05,
+    shape: "blob" as const,
+    speed: 0.8,
+  },
+  {
+    type: "grain" as ShaderType,
+    name: "NoisyWave",
+    nameKey: "noisyWave",
+    colors: ["#c6750c", "#beae60", "#d7cbc6"],
+    colorBack: "#000a0f",
+    softness: 0.4,
+    intensity: 0.35,
+    noise: 0.9,
+    shape: "wave" as const,
+    speed: 1.2,
+  },
+];
 
 function ApplemusicIcon() {
   return (
@@ -38,7 +113,6 @@ function SoundcloudIcon() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clipPath="url(#a)">
-        {" "}
         <path
           d="M23.999 14.165c-.052 1.796-1.612 3.169-3.4 3.169h-8.18a.68.68 0 0 1-.675-.683V7.862a.747.747 0 0 1 .452-.724s.75-.513 2.333-.513a5.364 5.364 0 0 1 2.763.755 5.433 5.433 0 0 1 2.57 3.54c.282-.08.574-.121.868-.12.884 0 1.73.358 2.347.992s.948 1.49.922 2.373ZM10.721 8.421c.247 2.98.427 5.697 0 8.672a.264.264 0 0 1-.53 0c-.395-2.946-.22-5.718 0-8.672a.264.264 0 0 1 .53 0ZM9.072 9.448c.285 2.659.37 4.986-.006 7.655a.277.277 0 0 1-.55 0c-.331-2.63-.256-5.02 0-7.655a.277.277 0 0 1 .556 0Zm-1.663-.257c.27 2.726.39 5.171 0 7.904a.266.266 0 0 1-.532 0c-.38-2.69-.257-5.21 0-7.904a.266.266 0 0 1 .532 0Zm-1.647.77a26.108 26.108 0 0 1-.008 7.147.272.272 0 0 1-.542 0 27.955 27.955 0 0 1 0-7.147.275.275 0 0 1 .55 0Zm-1.67 1.769c.421 1.865.228 3.5-.029 5.388a.257.257 0 0 1-.514 0c-.21-1.858-.398-3.549 0-5.389a.272.272 0 0 1 .543 0Zm-1.655-.273c.388 1.897.26 3.508-.01 5.412-.026.28-.514.283-.54 0-.244-1.878-.347-3.54-.01-5.412a.283.283 0 0 1 .56 0Zm-1.668.911c.4 1.268.257 2.292-.026 3.572a.257.257 0 0 1-.514 0c-.241-1.262-.354-2.312-.023-3.572a.283.283 0 0 1 .563 0Z"
           fill="currentColor"
@@ -115,10 +189,10 @@ function LinkCard({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center p-1 w-full rounded-md hover:scale-105 transition-all bg-gray-100 mb-3 max-w-3xl"
+      className="flex items-center p-1 w-full rounded-md hover:scale-105 transition-all bg-white/20 backdrop-blur-sm mb-3 max-w-3xl"
     >
       <div className="flex text-center w-full">
-        <div className="w-10 h-10 mt">
+        <div className="w-10 h-10">
           {image && (
             <Image
               className="rounded-sm"
@@ -129,7 +203,7 @@ function LinkCard({
             />
           )}
         </div>
-        <h2 className="flex justify-center font-mono items-center font-semibold w-full text-gray-700 -ml-10">
+        <h2 className="flex justify-center font-mono items-center font-semibold w-full text-white -ml-10">
           {title}
         </h2>
       </div>
@@ -138,40 +212,212 @@ function LinkCard({
 }
 
 export default function Home() {
+  const { t, i18n } = useTranslation();
+
+  const [selectedGradient, setSelectedGradient] = useState(0);
+  const [showGradientDropdown, setShowGradientDropdown] = useState(false);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+
+  const currentGradient = gradientPresets[selectedGradient];
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setShowLanguageDropdown(false);
+  };
+
+  // RTL support for Arabic
+  // RTL support for Arabic - only for content, not layout
+  useEffect(() => {
+    if (i18n.language === "ar") {
+      // Add RTL class to body for content direction
+      document.body.classList.add("rtl-content");
+    } else {
+      document.body.classList.remove("rtl-content");
+    }
+  }, [i18n.language]);
+
   return (
-    <div className="flex items-center flex-col mx-auto w-full justify-center mt-16 px-8">
-      <Image
-        priority
-        className="rounded-full border-2 border-gray-300"
-        alt={data.name}
-        src={data.avatar}
-        width={96}
-        height={96}
-      />
-      <h1 className="font-bold font-mono mt-4 mb-8 text-2xl text-white">{data.name}</h1>
-      {data.links.map((link) => (
-        <LinkCard key={link.href} {...link} />
-      ))}
-      <div className="flex items-center gap-4 mt-8 text-white">
-        {data.socials.map((social) => (
-          <a
-            aria-label={`${social.title} link`}
-            key={social.href}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {social.href.includes("x") ? (
-              <TwitterIcon />
-            ) : social.href.includes("github") ? (
-              <GitHubIcon />
-            ) : social.href.includes("soundcloud") ? (
-              <SoundcloudIcon />
-            ) : social.href.includes("apple") ? (
-              <ApplemusicIcon />
-            ) : null}
-          </a>
-        ))}
+    <div className="min-h-screen">
+      {/* Conditional gradient background */}
+      <div className="fixed inset-0 -z-10">
+        {currentGradient.type === "grain" ? (
+          <GrainGradient
+            width={typeof window !== "undefined" ? window.innerWidth : 1920}
+            height={typeof window !== "undefined" ? window.innerHeight : 1080}
+            colors={(currentGradient as any).colors}
+            colorBack={(currentGradient as any).colorBack}
+            softness={(currentGradient as any).softness}
+            intensity={(currentGradient as any).intensity}
+            noise={(currentGradient as any).noise}
+            shape={(currentGradient as any).shape}
+            speed={(currentGradient as any).speed}
+            scale={(currentGradient as any).scale}
+          />
+        ) : (
+          <Warp
+            width={typeof window !== "undefined" ? window.innerWidth : 1920}
+            height={typeof window !== "undefined" ? window.innerHeight : 1080}
+            colors={(currentGradient as any).colors}
+            proportion={(currentGradient as any).proportion}
+            softness={(currentGradient as any).softness}
+            distortion={(currentGradient as any).distortion}
+            swirl={(currentGradient as any).swirl}
+            swirlIterations={(currentGradient as any).swirlIterations}
+            shape={(currentGradient as any).shape}
+            shapeScale={(currentGradient as any).shapeScale}
+            speed={(currentGradient as any).speed}
+            scale={(currentGradient as any).scale}
+            rotation={(currentGradient as any).rotation}
+          />
+        )}
+      </div>
+
+      <div className="min-h-screen w-full transition-colors duration-300">
+        {/* Theme controls - split left and right */}
+        <div className="fixed top-6 left-0 right-0 flex items-center justify-between px-6 z-50 pointer-events-none">
+          {/* LEFT SIDE - Theme controls */}
+          <div className="flex items-center gap-3 pointer-events-auto">
+            {/* Gradient dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowGradientDropdown(!showGradientDropdown)}
+                className="px-4 py-2 rounded-md font-semibold shadow-lg transition-all hover:scale-110 bg-white/20 backdrop-blur-md text-white border border-white/30"
+              >
+                {t("themes")} ✏️
+              </button>
+              {showGradientDropdown && (
+                <div className="absolute top-full left-0 mt-2 bg-white/15 backdrop-blur-md rounded-lg shadow-xl overflow-hidden min-w-[150px]">
+                  {gradientPresets.map((preset, index) => (
+                    <button
+                      key={preset.name}
+                      onClick={() => {
+                        setSelectedGradient(index);
+                        setShowGradientDropdown(false);
+                      }}
+                      className={`w-full px-4 py-2 text-left hover:bg-gray-100/30 transition-colors ${
+                        selectedGradient === index
+                          ? "bg-gray-200/20 font-semibold"
+                          : ""
+                      } text-accent-foreground`}
+                    >
+                      {t(preset.nameKey)}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* RIGHT SIDE - Language selector */}
+          <div className="relative pointer-events-auto">
+            <button
+              onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+              className="px-4 py-2 rounded-md font-semibold shadow-lg transition-all hover:scale-110 bg-white/20 backdrop-blur-md text-white border border-white/30"
+            >
+              {i18n.language.toUpperCase()} 🌐
+            </button>
+            {showLanguageDropdown && (
+              <div className="absolute top-full right-0 mt-2 bg-white/15 backdrop-blur-md rounded-lg shadow-xl overflow-hidden min-w-[120px]">
+                <button
+                  onClick={() => changeLanguage("ar")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇯🇴 بالعربي
+                </button>
+                <button
+                  onClick={() => changeLanguage("en")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇺🇸 En
+                </button>
+                <button
+                  onClick={() => changeLanguage("es")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇪🇸 Esp
+                </button>
+                <button
+                  onClick={() => changeLanguage("fr")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇫🇷 Fr
+                </button>
+                <button
+                  onClick={() => changeLanguage("ja")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇯🇵 日本語
+                </button>
+                <button
+                  onClick={() => changeLanguage("port")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100/30 transition-colors text-gray-800"
+                >
+                  🇵🇹 Port
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Main content */}
+        <div className="flex items-center flex-col mx-auto w-full justify-center mt-24 px-8 pb-16">
+          <Image
+            priority
+            className="rounded-full border-2 border-gray-300"
+            alt={t("name")}
+            src={data.avatar}
+            width={96}
+            height={96}
+          />
+          <h1 className="font-bold text-white mt-4 mb-8 text-2xl transition-colors">
+            {t("name")}
+          </h1>
+          <div className="flex items-center gap-4 mb-10 text-white transition-colors">
+            {data.socials.map((social) => (
+              <a
+                aria-label={`${social.title} link`}
+                key={social.href}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {social.href.includes("x") ? (
+                  <TwitterIcon />
+                ) : social.href.includes("github") ? (
+                  <GitHubIcon />
+                ) : social.href.includes("soundcloud") ? (
+                  <SoundcloudIcon />
+                ) : social.href.includes("apple") ? (
+                  <ApplemusicIcon />
+                ) : null}
+              </a>
+            ))}
+          </div>
+          {data.links.map((link, index) => {
+            // Map link titles to translation keys
+            const linkKeys: Record<string, string> = {
+              "1000 Leads/Month - N8N Agent Workflow ($49)": "links.leadsAgent",
+              "Visit my website": "links.website",
+              "Buy me a 🌮": "links.buyTaco",
+              "Join me on Handshake!": "links.handshake",
+              "Soundcloud - Punchis 🕺🏻": "links.soundcloud",
+              "Check out my LinkedIn": "links.linkedin",
+            };
+
+            const translatedTitle = linkKeys[link.title]
+              ? t(linkKeys[link.title])
+              : link.title;
+
+            return (
+              <LinkCard
+                key={link.href}
+                href={link.href}
+                title={translatedTitle}
+                image={link.image}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

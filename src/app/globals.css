@@ -2,11 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* RTL support for Arabic content only */
+.rtl-content {
+  direction: ltr; /* Keep main direction LTR for layout */
+}
+
+.rtl-content h1,
+.rtl-content h2,
+.rtl-content p,
+.rtl-content span:not(.fixed *) {
+  direction: rtl; /* Apply RTL to text content only */
+  text-align: center;
+}
+html,
 body {
-background: linear-gradient(-45deg, #e5ff00, #185a9d, #5c258d, #000000,  #4389a2);
-  background-size: 400% 400%;
-  animation: gradient 20s ease infinite;
-  height: 100vh;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+body {
+  font-family: "JetBrains Mono", monospace;
+}
+
+#__next {
+  height: 100%;
 }
 
 @keyframes gradient {

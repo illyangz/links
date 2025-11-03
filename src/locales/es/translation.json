@@ -1,0 +1,17 @@
+{
+  "name": "Hassan Mango",
+  "theme": "Tema",
+  "mangoWarp": "MangoWarp",
+  "jellyFish": "Medusa",
+  "forest": "Bosque",
+  "lavaLamp": "Lámpara de Lava",
+  "noisyWave": "Onda Ruidosa",
+  "links": {
+    "leadsAgent": "1000 Clientes/Mes - Flujo de Agente N8N ($49)",
+    "website": "Visita mi sitio web",
+    "buyTaco": "Cómprame un 🌮",
+    "handshake": "¡Únete a mí en Handshake!",
+    "soundcloud": "Soundcloud - Punchis 🕺🏻",
+    "linkedin": "Mira mi LinkedIn"
+  }
+}
