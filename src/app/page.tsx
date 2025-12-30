@@ -398,7 +398,6 @@ export default function Home() {
             const linkKeys: Record<string, string> = {
               "1000 Leads/Month - N8N Agent Workflow ($49)": "links.leadsAgent",
               "Visit my website": "links.website",
-              "Buy me a 🌮": "links.buyTaco",
               "Join me on Handshake!": "links.handshake",
               "Soundcloud - Punchis 🕺🏻": "links.soundcloud",
               "Check out my LinkedIn": "links.linkedin",
