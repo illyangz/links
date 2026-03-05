@@ -214,7 +214,7 @@ function LinkCard({
 export default function Home() {
   const { t, i18n } = useTranslation();
 
-  const [selectedGradient, setSelectedGradient] = useState(0);
+  const [selectedGradient, setSelectedGradient] = useState(1);
   const [showGradientDropdown, setShowGradientDropdown] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
 
